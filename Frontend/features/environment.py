@@ -7,7 +7,7 @@ from pages.login_page import LoginPage
 
 
 def before_all(context):
-    if 'win32' in sys.platform:
+    if 'win64' in sys.platform:
         context.screenshot_path = f"{os.getcwd()}\\screenshots\\"
     elif 'linux' in sys.platform:
         context.screenshot_path = f"{os.getcwd()}/screenshots/"

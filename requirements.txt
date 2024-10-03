@@ -1,0 +1,9 @@
+behave
+behavex
+configparser
+email_listener
+mysql-connector-python
+nose
+PyHamcrest
+requests
+selenium

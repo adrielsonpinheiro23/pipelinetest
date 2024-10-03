@@ -1,8 +1,9 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Browser(object):
@@ -21,7 +22,7 @@ class Browser(object):
         options.add_argument('--ignore-ssl-errors')
         options.add_argument('--lang=en')
         if browser == 'chrome':
-            self.driver = webdriver.Chrome(chrome_options=options)
+            self.driver = webdriver.Chrome(options=options)
         else:
             self.driver = webdriver.Firefox(options=options)
         if mobile:
@@ -67,6 +68,9 @@ class Browser(object):
     def press_enter(self):
         webdriver.ActionChains(self.driver).send_keys(Keys.ENTER).perform()
 
+    def refresh(self):
+        self.driver.refresh()
+
     def select_option(self, text, *locator, timeout=3):
         select = Select(self.wait(locator, timeout))
         select.select_by_visible_text(text)
@@ -75,6 +79,12 @@ class Browser(object):
         wait = WebDriverWait(self.driver, timeout)
         element = wait.until(EC.element_to_be_clickable(locator))
         time.sleep(0.4)
+        return element
+
+    def wait_for_element(self, by, locator):
+        element = WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((by, locator))
+        )
         return element
 
     def wait_and_clear(self, *locator, timeout=3):
